@@ -3,8 +3,37 @@
  * @param {number} target
  * @return {number}
  */
-var search = function(nums, target) {
-    
+var search = function (nums, target) {
+  if (!nums.length) return -1;
+  if (nums.length <= 3) return nums.indexOf(target);
+  let L = 0, R = nums.length - 1
+
+  while (L <= R) {
+    let mid = (L + R) >> 1
+
+    if (nums[mid] === target) {
+      return mid
+    }
+
+
+    if (nums[L] <= nums[mid]) {
+      // 左侧有序
+      if (target >= nums[L] && target < nums[mid]) {
+        R = mid - 1
+      } else {
+        L = mid + 1
+      }
+    } else {
+      // 右侧有序
+      if (target > nums[mid] && target <= nums[R]) {
+        L = mid + 1
+      } else {
+        R = mid - 1
+      }
+    }
+  }
+
+  return -1
 };
 
 // 假设按照升序排序的数组在预先未知的某个点上进行了旋转。
